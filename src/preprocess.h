@@ -52,6 +52,31 @@ POINT_CLOUD_REGISTER_POINT_STRUCT(velodyne_ros::Point,
     (uint16_t, ring, ring)
 )
 
+namespace inno_ros {
+  struct EIGEN_ALIGN16 Point {
+    PCL_ADD_POINT4D;
+    double timestamp;
+    uint16_t intensity;
+    uint16_t flags;
+    uint16_t elongation;
+    uint16_t scan_id;
+    uint16_t scan_idx;
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+  };
+}  // namespace velodyne_ros
+POINT_CLOUD_REGISTER_POINT_STRUCT(inno_ros::Point,
+    (float, x, x)
+    (float, y, y)
+    (float, z, z)
+    (double, timestamp, timestamp)
+    (uint16_t, intensity, intensity)
+    (uint16_t, flags, flags)
+    (uint16_t, elongation, elongation)
+    (uint16_t, scan_id, scan_id)
+    (uint16_t, scan_idx, scan_idx)
+  )
+
+
 namespace ouster_ros {
   struct EIGEN_ALIGN16 Point {
       PCL_ADD_POINT4D;
