@@ -11,6 +11,8 @@
 #include <tf/transform_broadcaster.h>
 #include <eigen_conversions/eigen_msg.h>
 
+#include "../src/inno_pcl_point.h"
+
 using namespace std;
 using namespace Eigen;
 
@@ -35,7 +37,13 @@ using namespace Eigen;
 
 typedef fast_lio::Pose6D Pose6D;
 typedef pcl::PointXYZINormal PointType;
+// typedef PointXYZTIFES PointType;
 typedef pcl::PointCloud<PointType> PointCloudXYZI;
+
+
+typedef fast_lio::Pose6D Pose6D;
+// typedef pcl::PointXYZINormal PointType;
+// typedef pcl::PointCloud<PointType> PointCloudXYZI;
 typedef vector<PointType, Eigen::aligned_allocator<PointType>>  PointVector;
 typedef Vector3d V3D;
 typedef Matrix3d M3D;
@@ -62,7 +70,9 @@ struct MeasureGroup     // Lidar data and imu dates for the curent process
     double lidar_beg_time;
     double lidar_end_time;
     PointCloudXYZI::Ptr lidar;
-    deque<sensor_msgs::Imu::ConstPtr> imu;
+    // deque<sensor_msgs::Imu::ConstPtr> imu;
+    deque<sensor_msgs::Imu::Ptr> imu;
+
 };
 
 struct StatesGroup

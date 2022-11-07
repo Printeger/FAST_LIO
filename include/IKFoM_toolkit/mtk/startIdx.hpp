@@ -141,7 +141,7 @@ template<class Base, class T, int idx, int dim>
 void setDiagonal_(Eigen::Matrix<typename Base::scalar, Base::DIM, Base::DIM> &cov, 
 		MTK::SubManifold<T, idx, dim> Base::*, const typename Base::scalar &val)
 {
-	cov.diagonal().template segment<T::DIM>(dim).setConstant(val);
+	cov.diagonal().template segment<T::DIM>(dim).setConstant(val);    // 使用 .template来说明segment不是一个数据成员, 而是一个模板函数
 }
 
 /**

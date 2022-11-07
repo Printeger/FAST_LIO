@@ -46,10 +46,12 @@ MTK::get_cov<process_noise_ikfom>::type process_noise_cov()
 //vect3 Lidar_offset_to_IMU(L_offset_to_I, 3);
 Eigen::Matrix<double, 24, 1> get_f(state_ikfom &s, const input_ikfom &in)
 {
+	// 将imu积分方程矩阵初始化为0,这里的24个对应了速度(3)，角速度(3),外参偏置T(3),外参偏置R(3)，加速度(3),角速度偏置(3),加速度偏置(3),位置(3)
 	Eigen::Matrix<double, 24, 1> res = Eigen::Matrix<double, 24, 1>::Zero();
 	vect3 omega;
-	in.gyro.boxminus(omega, s.bg);
-	vect3 a_inertial = s.rot * (in.acc-s.ba); 
+	in.gyro.boxminus(omega, s.bg);// 得到imu的角速度
+	vect3 a_inertial = s.rot * (in.acc-s.ba); // 加速度转到世界坐标系
+	// 更新速度/角速度/加速度
 	for(int i = 0; i < 3; i++ ){
 		res(i) = s.vel[i];
 		res(i + 3) =  omega[i]; 
@@ -57,7 +59,7 @@ Eigen::Matrix<double, 24, 1> get_f(state_ikfom &s, const input_ikfom &in)
 	}
 	return res;
 }
-
+// 更新矩阵Fx
 Eigen::Matrix<double, 24, 23> df_dx(state_ikfom &s, const input_ikfom &in)
 {
 	Eigen::Matrix<double, 24, 23> cov = Eigen::Matrix<double, 24, 23>::Zero();
@@ -76,7 +78,7 @@ Eigen::Matrix<double, 24, 23> df_dx(state_ikfom &s, const input_ikfom &in)
 	return cov;
 }
 
-
+// 更新矩阵Fw
 Eigen::Matrix<double, 24, 12> df_dw(state_ikfom &s, const input_ikfom &in)
 {
 	Eigen::Matrix<double, 24, 12> cov = Eigen::Matrix<double, 24, 12>::Zero();

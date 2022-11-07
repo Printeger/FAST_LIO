@@ -71,6 +71,8 @@ include_directories(
 add_message_files(
   FILES
   Pose6D.msg
+  inno_point.msg
+  inno_points.msg
 )
 
 generate_messages(
